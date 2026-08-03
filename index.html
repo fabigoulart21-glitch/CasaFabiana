@@ -33,9 +33,12 @@
     <button id="startCleaning" class="primary">▶ Iniciar faxina</button>
   </section>
 
-  <nav class="tabs">
+  <nav class="tabs six">
     <button class="tab active" data-target="today">Hoje</button>
     <button class="tab" data-target="agenda">Agenda</button>
+    <button class="tab" data-target="spaces">Ambientes</button>
+    <button class="tab" data-target="care">Robôs e Pets</button>
+    <button class="tab" data-target="shopping">Compras</button>
     <button class="tab" data-target="history">Histórico</button>
     <button class="tab" data-target="settings">Ajustes</button>
   </nav>
@@ -62,6 +65,56 @@
       <button id="downloadCalendar" class="primary">Baixar para o Calendário do iPhone</button>
       <p class="hint">Os alertas do Calendário funcionam mesmo com o aplicativo fechado.</p>
     </div>
+  </section>
+
+
+  <section id="spaces" class="panel">
+    <div class="section-title">
+      <h2>Ambientes</h2>
+      <span class="mini-note">Checklists por cômodo</span>
+    </div>
+    <div id="spacesGrid" class="spaces-grid"></div>
+  </section>
+
+  <section id="care" class="panel">
+    <div class="section-title">
+      <h2>Robôs e Pets</h2>
+      <span class="mini-note">Rotina e manutenção</span>
+    </div>
+    <div class="care-columns">
+      <div class="card">
+        <h3>🤖 Robô 1</h3>
+        <div id="robot1List" class="mini-list"></div>
+      </div>
+      <div class="card">
+        <h3>🤖 Robô 2</h3>
+        <div id="robot2List" class="mini-list"></div>
+      </div>
+      <div class="card">
+        <h3>🐶 Shih Tzus</h3>
+        <div id="petsList" class="mini-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="shopping" class="panel">
+    <div class="section-title">
+      <h2>Compras</h2>
+      <button id="clearBought" class="link">Limpar comprados</button>
+    </div>
+    <form id="shoppingForm" class="shopping-form card">
+      <input id="shoppingInput" type="text" placeholder="Adicionar produto" required>
+      <select id="shoppingCategory">
+        <option>Limpeza</option>
+        <option>Mercado</option>
+        <option>Pets</option>
+        <option>Higiene</option>
+        <option>Outros</option>
+      </select>
+      <button class="primary" type="submit">Adicionar</button>
+    </form>
+    <div id="shoppingFilters" class="chips"></div>
+    <div id="shoppingList" class="list"></div>
   </section>
 
   <section id="history" class="panel">

@@ -1,27 +1,12 @@
-# Casa Fabiana — GitHub Pages — Módulo 1
+# Casa Fabiana — GitHub Pages — Módulo 2
 
-Atualização concreta com:
+Novidades:
 
-- Dashboard e progresso do dia
-- Tela Hoje com horário, ambiente e conclusão
-- Agenda semanal interativa
-- Modo Faxina
-- Histórico
-- Backup e restauração
-- Alertas enquanto o aplicativo estiver aberto
-- Exportação de lembretes mensais para o Calendário do iPhone
-- Funcionamento offline como PWA
+- Ambientes com checklist por cômodo
+- Robô 1 e Robô 2 com manutenção
+- Rotina dos Shih Tzus
+- Lista de compras por categorias
+- Itens comprados, exclusão e filtros
+- Mantém Dashboard, Hoje, Agenda, Histórico, Backup e Modo Faxina
 
-## Atualização
-
-Substitua no repositório os arquivos:
-
-- index.html
-- styles.css
-- app.js
-- manifest.webmanifest
-- sw.js
-- icon-192.png
-- icon-512.png
-
-Depois faça commit na branch main.
+Substitua todos os arquivos no repositório e faça commit na branch main.

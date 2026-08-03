@@ -301,3 +301,125 @@ document.getElementById("clearData").onclick=()=>{
 };
 
 if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+
+
+const spaces = [
+  {id:"sala",name:"🛋️ Sala de Estar",tasks:["Aspirar","Passar pano","Tirar pó","Limpar sofá","Limpar janela"]},
+  {id:"cozinha",name:"🍽️ Cozinha",tasks:["Limpar pia","Limpar fogão","Limpar bancada","Limpar mesa","Esvaziar lixo","Limpar micro-ondas","Geladeira por fora","Geladeira por dentro"]},
+  {id:"suite",name:"🛏️ Quarto Suíte",tasks:["Arrumar cama","Tirar pó","Organizar roupas","Aspirar","Passar pano"]},
+  {id:"vitoria",name:"🛏️ Quarto Vitória",tasks:["Arrumar cama","Tirar pó","Organizar roupas","Aspirar","Passar pano"]},
+  {id:"closet",name:"👗 Closet",tasks:["Guardar roupas","Organizar gavetas","Organizar sapatos","Tirar pó","Aspirar"]},
+  {id:"banheiros",name:"🚿 Banheiros",tasks:["Vaso","Pia","Espelho","Box","Chão","Lixeira"]},
+  {id:"lavanderia",name:"🧺 Lavanderia",tasks:["Tanque","Máquina","Produtos","Piso","Lixeira"]},
+  {id:"area",name:"🌿 Área Gourmet + Garagem",tasks:["Varrer","Lavar piso","Organizar mesa","Retirar lixo","Conferir ralos","Limpar portão"]}
+];
+
+function spaceKey(id){return `space-${id}`;}
+function renderSpaces(){
+  const grid=document.getElementById("spacesGrid"); if(!grid)return; grid.innerHTML="";
+  spaces.forEach(space=>{
+    const done=JSON.parse(localStorage.getItem(spaceKey(space.id))||"{}");
+    const completed=Object.values(done).filter(Boolean).length;
+    const card=document.createElement("div"); card.className="space-card";
+    card.innerHTML=`<h3>${space.name}</h3><p>${completed} de ${space.tasks.length} concluídas</p>
+      <div class="space-progress"><div style="width:${completed/space.tasks.length*100}%"></div></div>
+      <div class="space-task-list"></div>`;
+    const list=card.querySelector(".space-task-list");
+    space.tasks.forEach((task,i)=>{
+      const row=document.createElement("label"); row.className="space-task";
+      row.innerHTML=`<input type="checkbox" ${done[i]?"checked":""}><span>${task}</span>`;
+      row.querySelector("input").onchange=(e)=>{
+        done[i]=e.target.checked; localStorage.setItem(spaceKey(space.id),JSON.stringify(done)); renderSpaces();
+      };
+      list.appendChild(row);
+    });
+    grid.appendChild(card);
+  });
+}
+renderSpaces();
+
+const robot1Tasks=[
+  ["Reservatório","Esvaziar após a limpeza"],
+  ["Pano","Lavar e deixar secar"],
+  ["Sensores","Limpar semanalmente"],
+  ["Escova principal","Retirar cabelos"],
+  ["Filtro","Conferir e substituir quando necessário"]
+];
+const robot2Tasks=[
+  ["Reservatório","Esvaziar após a limpeza"],
+  ["Pano","Lavar e deixar secar"],
+  ["Sensores","Limpar semanalmente"],
+  ["Escovas laterais","Retirar cabelos"],
+  ["Filtro","Conferir e substituir quando necessário"]
+];
+const petTasks=[
+  ["Água","Trocar manhã e noite"],
+  ["Ração","Oferecer nos horários"],
+  ["Caminhas","Lavar semanalmente"],
+  ["Banho","Registrar quando fizer"],
+  ["Vermífugo","Conferir a próxima data"],
+  ["Vacinas","Conferir a carteirinha"]
+];
+
+function renderMiniList(targetId,key,items){
+  const target=document.getElementById(targetId); if(!target)return;
+  const done=JSON.parse(localStorage.getItem(key)||"{}"); target.innerHTML="";
+  items.forEach((item,i)=>{
+    const row=document.createElement("label"); row.className="mini-item";
+    row.innerHTML=`<input type="checkbox" ${done[i]?"checked":""}><span><b>${item[0]}</b><small>${item[1]}</small></span>`;
+    row.querySelector("input").onchange=(e)=>{
+      done[i]=e.target.checked; localStorage.setItem(key,JSON.stringify(done));
+    };
+    target.appendChild(row);
+  });
+}
+renderMiniList("robot1List","robot1-checks",robot1Tasks);
+renderMiniList("robot2List","robot2-checks",robot2Tasks);
+renderMiniList("petsList","pets-checks",petTasks);
+
+let shoppingFilter="Todos";
+function getShopping(){
+  return JSON.parse(localStorage.getItem("shopping")||JSON.stringify([
+    {id:crypto.randomUUID(),title:"Desinfetante",category:"Limpeza",done:false},
+    {id:crypto.randomUUID(),title:"Saco de lixo",category:"Limpeza",done:false},
+    {id:crypto.randomUUID(),title:"Ração dos cães",category:"Pets",done:false}
+  ]));
+}
+function saveShopping(items){localStorage.setItem("shopping",JSON.stringify(items));}
+function renderShoppingFilters(){
+  const box=document.getElementById("shoppingFilters"); if(!box)return; box.innerHTML="";
+  ["Todos","Limpeza","Mercado","Pets","Higiene","Outros"].forEach(cat=>{
+    const b=document.createElement("button"); b.className="chip "+(shoppingFilter===cat?"active":""); b.textContent=cat;
+    b.onclick=()=>{shoppingFilter=cat;renderShoppingFilters();renderShopping();}; box.appendChild(b);
+  });
+}
+function renderShopping(){
+  const box=document.getElementById("shoppingList"); if(!box)return; box.innerHTML="";
+  let items=getShopping(); saveShopping(items);
+  items.filter(x=>shoppingFilter==="Todos"||x.category===shoppingFilter).forEach(item=>{
+    const row=document.createElement("div"); row.className="shop-item "+(item.done?"done":"");
+    row.innerHTML=`<input type="checkbox" ${item.done?"checked":""}>
+      <div><div class="shop-title"><b>${item.title}</b></div><div class="shop-cat">${item.category}</div></div>
+      <button class="delete-small">Excluir</button>`;
+    row.querySelector("input").onchange=(e)=>{
+      const all=getShopping(); const found=all.find(x=>x.id===item.id); if(found)found.done=e.target.checked; saveShopping(all); renderShopping();
+    };
+    row.querySelector("button").onclick=()=>{
+      saveShopping(getShopping().filter(x=>x.id!==item.id)); renderShopping();
+    };
+    box.appendChild(row);
+  });
+  if(!box.children.length) box.innerHTML='<div class="card">Nenhum item nesta categoria.</div>';
+}
+document.getElementById("shoppingForm")?.addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const title=document.getElementById("shoppingInput").value.trim();
+  const category=document.getElementById("shoppingCategory").value;
+  if(!title)return;
+  const items=getShopping(); items.unshift({id:crypto.randomUUID(),title,category,done:false}); saveShopping(items);
+  e.target.reset(); renderShopping();
+});
+document.getElementById("clearBought")?.addEventListener("click",()=>{
+  if(confirm("Remover os itens já comprados?")){saveShopping(getShopping().filter(x=>!x.done));renderShopping();}
+});
+renderShoppingFilters(); renderShopping();
