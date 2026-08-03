@@ -1,2 +1,2 @@
-# CasaFabiana
-Aplicativo de organização da casa
+# Casa Fabiana
+Aplicativo web instalável para organizar a limpeza da casa.
