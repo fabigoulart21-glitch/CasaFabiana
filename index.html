@@ -1,1 +1,111 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#2669ab"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Casa Fabiana"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png"><link rel="stylesheet" href="styles.css"><title>Casa Fabiana</title></head><body><header class="topbar"><div><p class="eyebrow">CASA FABIANA</p><h1 id="greeting">Olá, Fabiana</h1><p id="todayLabel"></p></div><button id="notifyBtn" class="icon-btn">🔔</button></header><main><section class="card progress-card"><div><span class="muted">Progresso de hoje</span><strong id="progressText">0 de 0</strong></div><div class="progress"><div id="progressBar"></div></div></section><nav class="tabs"><button class="tab active" data-tab="today">Hoje</button><button class="tab" data-tab="rooms">Ambientes</button><button class="tab" data-tab="calendar">Calendário</button><button class="tab" data-tab="settings">Ajustes</button></nav><section id="today" class="panel active"><div class="section-head"><h2>Tarefas de hoje</h2><button id="resetToday" class="text-btn">Reiniciar</button></div><div id="todayTasks" class="task-list"></div></section><section id="rooms" class="panel"><h2>Ambientes</h2><div id="roomGrid" class="room-grid"></div></section><section id="calendar" class="panel"><h2>Calendário de limpeza</h2><div class="card"><h3>Mensais</h3><ul class="schedule"><li><b>Dia 5 • 19h30</b> Janelas e vidros</li><li><b>Dia 10 • 19h30</b> Portas e batentes</li><li><b>Dia 15 • 19h30</b> Rodapés</li><li><b>Dia 20 • 19h30</b> Armários por fora</li><li><b>Dia 25 • 19h30</b> Geladeira por dentro</li><li><b>Último sábado • 09h00</b> Banheiros, lixeiras e panos</li></ul><button id="downloadCalendar" class="primary">Baixar lembretes para o calendário</button></div></section><section id="settings" class="panel"><h2>Ajustes</h2><div class="card settings"><button id="clearAll" class="danger">Apagar marcações salvas</button><p class="small">As marcações ficam salvas apenas neste aparelho.</p></div></section></main><div id="roomModal" class="modal hidden"><div class="modal-card"><button id="closeModal" class="close">×</button><h2 id="modalTitle"></h2><div id="modalTasks" class="task-list"></div></div></div><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2f6ea6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Casa Fabiana">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+<title>Casa Fabiana</title>
+</head>
+<body>
+<header class="hero">
+  <div>
+    <p class="kicker">CASA FABIANA</p>
+    <h1 id="greeting">Olá, Fabiana</h1>
+    <p id="dateLabel"></p>
+  </div>
+  <button id="notifyBtn" class="round" aria-label="Ativar notificações">🔔</button>
+</header>
+
+<main>
+  <section class="card summary">
+    <div class="summary-line">
+      <span>Progresso de hoje</span>
+      <strong id="summaryCount">0 de 0</strong>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+    <p id="nextTask" class="next">Próxima tarefa: —</p>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab active" data-target="today">Hoje</button>
+    <button class="tab" data-target="rooms">Ambientes</button>
+    <button class="tab" data-target="calendar">Agenda</button>
+    <button class="tab" data-target="stock">Compras</button>
+    <button class="tab" data-target="stats">Resumo</button>
+  </nav>
+
+  <section id="today" class="panel active">
+    <div class="section-title">
+      <h2>Tarefas de hoje</h2>
+      <button id="resetDay" class="link">Reiniciar dia</button>
+    </div>
+    <div id="todayList" class="list"></div>
+  </section>
+
+  <section id="rooms" class="panel">
+    <h2>Ambientes</h2>
+    <div id="roomGrid" class="grid"></div>
+  </section>
+
+  <section id="calendar" class="panel">
+    <h2>Agenda de limpeza</h2>
+
+    <div class="card">
+      <h3>Semanal</h3>
+      <div id="weeklyPlan" class="agenda"></div>
+    </div>
+
+    <div class="card">
+      <h3>Mensal e periódica</h3>
+      <div id="monthlyPlan" class="agenda"></div>
+      <button id="downloadICS" class="primary">Baixar lembretes para o Calendário</button>
+      <p class="hint">O Calendário do iPhone é a forma mais confiável de receber avisos nos horários.</p>
+    </div>
+  </section>
+
+  <section id="stock" class="panel">
+    <h2>Produtos e compras</h2>
+    <div class="card">
+      <div class="add-row">
+        <input id="newItem" placeholder="Ex.: detergente, ração, refil">
+        <button id="addItem" class="primary compact">Adicionar</button>
+      </div>
+      <div id="stockList" class="list"></div>
+    </div>
+  </section>
+
+  <section id="stats" class="panel">
+    <h2>Resumo</h2>
+    <div class="stats-grid">
+      <div class="card stat"><strong id="doneWeek">0</strong><span>Concluídas</span></div>
+      <div class="card stat"><strong id="pendingWeek">0</strong><span>Pendentes</span></div>
+      <div class="card stat"><strong id="percentWeek">0%</strong><span>Progresso</span></div>
+    </div>
+    <div class="card">
+      <h3>Manutenção</h3>
+      <ul class="maintenance">
+        <li>Robôs: reservatórios, escovas, filtros e sensores</li>
+        <li>Difusores: virar varetas e conferir refis</li>
+        <li>Pets: caminhas, mantas, potes e locais de xixi</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<div id="modal" class="modal hidden">
+  <div class="sheet">
+    <button id="closeModal" class="close" aria-label="Fechar">×</button>
+    <h2 id="modalTitle"></h2>
+    <div id="modalList" class="list"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
