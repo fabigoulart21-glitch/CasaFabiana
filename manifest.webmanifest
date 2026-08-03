@@ -2,6 +2,7 @@
   "name": "Casa Fabiana",
   "short_name": "Casa Fabiana",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f6f8fb",
   "theme_color": "#2f6ea6",

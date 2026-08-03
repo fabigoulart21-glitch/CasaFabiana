@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#2f6ea6">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -19,7 +19,7 @@
     <h1 id="greeting">Olá, Fabiana</h1>
     <p id="dateLabel"></p>
   </div>
-  <button id="notifyBtn" class="round" aria-label="Ativar notificações">🔔</button>
+  <button id="notifyBtn" class="round" aria-label="Ativar alertas">🔔</button>
 </header>
 
 <main>
@@ -30,79 +30,77 @@
     </div>
     <div class="progress"><div id="progressBar"></div></div>
     <p id="nextTask" class="next">Próxima tarefa: —</p>
+    <button id="startCleaning" class="primary">▶ Iniciar faxina</button>
   </section>
 
   <nav class="tabs">
     <button class="tab active" data-target="today">Hoje</button>
-    <button class="tab" data-target="rooms">Ambientes</button>
-    <button class="tab" data-target="calendar">Agenda</button>
-    <button class="tab" data-target="stock">Compras</button>
-    <button class="tab" data-target="stats">Resumo</button>
+    <button class="tab" data-target="agenda">Agenda</button>
+    <button class="tab" data-target="history">Histórico</button>
+    <button class="tab" data-target="settings">Ajustes</button>
   </nav>
 
   <section id="today" class="panel active">
     <div class="section-title">
       <h2>Tarefas de hoje</h2>
-      <button id="resetDay" class="link">Reiniciar dia</button>
+      <button id="resetDay" class="link">Reiniciar</button>
     </div>
     <div id="todayList" class="list"></div>
   </section>
 
-  <section id="rooms" class="panel">
-    <h2>Ambientes</h2>
-    <div id="roomGrid" class="grid"></div>
-  </section>
-
-  <section id="calendar" class="panel">
-    <h2>Agenda de limpeza</h2>
-
-    <div class="card">
-      <h3>Semanal</h3>
-      <div id="weeklyPlan" class="agenda"></div>
+  <section id="agenda" class="panel">
+    <div class="section-title">
+      <h2>Agenda semanal</h2>
+      <button id="resetAgendaDay" class="link">Reiniciar dia</button>
     </div>
+    <div id="weekdayChips" class="chips"></div>
+    <div id="agendaList" class="list"></div>
 
-    <div class="card">
-      <h3>Mensal e periódica</h3>
-      <div id="monthlyPlan" class="agenda"></div>
-      <button id="downloadICS" class="primary">Baixar lembretes para o Calendário</button>
-      <p class="hint">O Calendário do iPhone é a forma mais confiável de receber avisos nos horários.</p>
+    <div class="card calendar-card">
+      <h3>Lembretes mensais</h3>
+      <div id="monthlyList" class="agenda-summary"></div>
+      <button id="downloadCalendar" class="primary">Baixar para o Calendário do iPhone</button>
+      <p class="hint">Os alertas do Calendário funcionam mesmo com o aplicativo fechado.</p>
     </div>
   </section>
 
-  <section id="stock" class="panel">
-    <h2>Produtos e compras</h2>
-    <div class="card">
-      <div class="add-row">
-        <input id="newItem" placeholder="Ex.: detergente, ração, refil">
-        <button id="addItem" class="primary compact">Adicionar</button>
-      </div>
-      <div id="stockList" class="list"></div>
+  <section id="history" class="panel">
+    <div class="section-title">
+      <h2>Histórico</h2>
+      <button id="clearHistory" class="link danger-link">Apagar</button>
     </div>
+    <div id="historySummary" class="stats-grid"></div>
+    <div id="historyList" class="history-list"></div>
   </section>
 
-  <section id="stats" class="panel">
-    <h2>Resumo</h2>
-    <div class="stats-grid">
-      <div class="card stat"><strong id="doneWeek">0</strong><span>Concluídas</span></div>
-      <div class="card stat"><strong id="pendingWeek">0</strong><span>Pendentes</span></div>
-      <div class="card stat"><strong id="percentWeek">0%</strong><span>Progresso</span></div>
-    </div>
-    <div class="card">
-      <h3>Manutenção</h3>
-      <ul class="maintenance">
-        <li>Robôs: reservatórios, escovas, filtros e sensores</li>
-        <li>Difusores: virar varetas e conferir refis</li>
-        <li>Pets: caminhas, mantas, potes e locais de xixi</li>
-      </ul>
+  <section id="settings" class="panel">
+    <h2>Ajustes</h2>
+    <div class="card settings-card">
+      <label class="switch-row">
+        <span>
+          <b>Alertas no navegador</b>
+          <small>Funcionam enquanto o app está aberto.</small>
+        </span>
+        <input id="browserAlerts" type="checkbox">
+      </label>
+      <button id="exportBackup" class="secondary">Exportar backup</button>
+      <label class="secondary file-label">
+        Importar backup
+        <input id="importBackup" type="file" accept="application/json">
+      </label>
+      <button id="clearData" class="danger">Apagar todos os dados</button>
     </div>
   </section>
 </main>
 
-<div id="modal" class="modal hidden">
-  <div class="sheet">
-    <button id="closeModal" class="close" aria-label="Fechar">×</button>
-    <h2 id="modalTitle"></h2>
-    <div id="modalList" class="list"></div>
+<div id="focusModal" class="modal hidden">
+  <div class="sheet focus-sheet">
+    <button id="closeFocus" class="close" aria-label="Fechar">×</button>
+    <p class="kicker blue">MODO FAXINA</p>
+    <h2 id="focusTitle">Próxima tarefa</h2>
+    <p id="focusMeta" class="focus-meta"></p>
+    <p id="focusDetails" class="focus-details"></p>
+    <button id="focusDone" class="primary">Concluir e avançar</button>
   </div>
 </div>
 
